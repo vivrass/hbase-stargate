@@ -7,6 +7,8 @@ module Stargate
 
       def initialize(table_name, name, timestamp = nil)
         @table_name, @name, @timestamp = CGI.escape(table_name), CGI.escape(name), timestamp
+        # timestamp : * 1000 => is saved in milliseconds, + 1 REST interface bug on ==
+        @timestamp = @timestamp * 1000 + 1 if @timestamp
         path = "/#{@table_name}/#{@name}"
         super(path)
       end
